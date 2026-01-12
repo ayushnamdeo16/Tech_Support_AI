@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Support Hub - View your past issues and solutions" />
+  <title>Support Hub | Tech Support AI</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="ai-bg">
+    <header class="topbar">
+      <div class="logo">🛠 Tech Support AI</div>
+      <div class="Header_menu">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="troubleshooting.html">New Issue</a>
+        <a href="aboutus.html">About</a>
+      </div>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </header>
+
+    <main class="dashboard">
+      <!-- Intro -->
+      <div class="hub-header">
+        <h2>How can we help you today?</h2>
+        <p>
+          Select an existing issue to view the solution,
+          or create a new support request.
+        </p>
+      </div>
+   
+      <!-- Existing Issue Card -->
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h3 style="margin: 0;">Select Existing Issue</h3>
+          <button onclick="loadIssuesDropdown()" style="padding: 0.5rem 1rem; background: #667eea; color: white; border: none; border-radius: 0.5rem; cursor: pointer; font-size: 0.875rem; font-weight: 600;" title="Refresh issues list">
+            🔄 Refresh
+          </button>
+        </div>
+        <select id="issueDropdown" class="dropdown">
+          <option value="">-- Select an issue --</option>
+        </select>
+        <div id="savedResponse" class="response-box">
+          Select an issue from the dropdown to view the AI solution.
+        </div>
+      </div>
+   
+      <!-- Divider -->
+      <div class="divider">
+        <span>OR</span>
+      </div>
+   
+      <!-- New Issue -->
+      <div class="card center">
+        <h3>Didn't find your issue?</h3>
+        <p class="muted-text">
+          Create a new support request and get a fresh AI diagnosis.
+        </p>
+        <button class="primary-btn" onclick="goToNewIssue()">
+          My issue is different
+        </button>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      © 2026 Tech Support AI • Intelligent Troubleshooting Platform
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

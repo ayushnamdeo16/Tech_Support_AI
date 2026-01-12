@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Sign up for Tech Support AI - Create your account" />
+  <title>Sign Up - Tech Support AI</title>
+  <link rel="stylesheet" href="login.css" />
+</head>
+<body>
+  <div class="page">
+    <div class="card">
+      <!-- Left Illustration -->
+      <div class="left">
+        <div class="brand">XEBIA</div>
+        <div class="illustration">
+          <div class="circle"></div>
+          <div class="mascot">🤖</div>
+        </div>
+        <h2>Xebia Tech-AI-Support</h2>
+        <p>Shaping your future with AI</p>
+      </div>
+      
+      <!-- Right Registration -->
+      <div class="register_right">
+        <div class="logo">🛠 Tech Support AI</div>
+        <h2 class="register_Page">Create Your Account</h2>
+        <p class="subtitle_Page">Get started with Xebia Tech-AI Support</p>
+        
+        <form id="signupForm">
+          <label for="signupName">Full Name</label>
+          <input 
+            type="text" 
+            id="signupName" 
+            name="full-name" 
+            required 
+            placeholder="Enter your full name"
+            autocomplete="name"
+          />
+          
+          <label for="signupEmail">Email</label>
+          <input 
+            type="email" 
+            id="signupEmail" 
+            name="email" 
+            required 
+            placeholder="Enter your email"
+            autocomplete="email"
+          />
+          
+          <label for="signupPassword">Password</label>
+          <input 
+            type="password" 
+            id="signupPassword" 
+            name="password" 
+            required 
+            placeholder="Enter your password"
+            autocomplete="new-password"
+          />
+          
+          <label for="confirm-password">Confirm Password</label>
+          <input 
+            type="password" 
+            id="confirm-password" 
+            name="confirm-password" 
+            required 
+            placeholder="Confirm your password"
+            autocomplete="new-password"
+          />
+          
+          <div class="checkbox">
+            <input type="checkbox" id="remember" name="remember" />
+            <label for="remember">I agree to the Terms and Conditions</label>
+          </div>
+          
+          <button type="button" onclick="signup()" class="login-btn">Register</button>
+        </form>
+        
+        <p class="down_text">Already have an account? <a href="index.html">Login here</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

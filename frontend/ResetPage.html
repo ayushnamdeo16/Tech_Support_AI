@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Reset Password - Tech Support AI" />
+  <title>Reset Password - Tech Support AI</title>
+  <link rel="stylesheet" href="login.css" />
+</head>
+<body>
+  <div class="page">
+    <div class="card">
+      <!-- Left Illustration -->
+      <div class="left">
+        <div class="brand">XEBIA</div>
+        <div class="illustration">
+          <div class="circle"></div>
+          <div class="mascot">🤖</div>
+        </div>
+        <h2>Xebia Tech-AI-Support</h2>
+        <p>Shaping your future with AI</p>
+      </div>
+
+      <!-- Right Form -->
+      <div class="right">
+        <div class="logo">🛠 Tech Support AI</div>
+        <div class="empty_Mail">
+          <img src="images/empty mail box.png" alt="mailbox" />
+        </div>
+    
+        <h2 class="Reset_H">Reset password</h2>
+        <p class="subtitle_reset">Please kindly set your new password.</p>
+    
+        <label for="reset_password">New password</label>
+        <input 
+          type="password" 
+          id="reset_password" 
+          placeholder="Enter new password"
+          autocomplete="new-password"
+          required
+        />
+    
+        <div class="strength-bar">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+        </div>
+    
+        <div class="strength-text" id="reset_strengthText"></div>
+    
+        <label for="confirmPassword">Re-enter password</label>
+        <input 
+          type="password" 
+          id="confirmPassword" 
+          placeholder="Confirm password"
+          autocomplete="new-password"
+          required
+        />
+    
+        <div class="error" id="errorMsg">Passwords do not match</div>
+    
+        <button class="login-btn" onclick="submitPassword()">Password reset</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    function submitPassword() {
+      const password = document.getElementById('reset_password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      const errorMsg = document.getElementById('errorMsg');
+      
+      if (password !== confirmPassword) {
+        errorMsg.style.display = 'block';
+        return;
+      }
+      
+      if (password.length < 6) {
+        alert('Password must be at least 6 characters long');
+        return;
+      }
+      
+      errorMsg.style.display = 'none';
+      alert('Password reset successful! Redirecting to login...');
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>

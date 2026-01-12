@@ -1,26 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Tech Support AI</title>
-<link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Login to Tech Support AI - Your intelligent troubleshooting platform" />
+  <title>Login - Tech Support AI</title>
+  <link rel="stylesheet" href="login.css" />
 </head>
 <body>
- 
-<div class="container">
-<h2>🛠 Tech Support AI</h2>
- <!--
-  <textarea id="issue" placeholder="Describe the issue..."></textarea>
-<textarea id="context" placeholder="Paste logs, errors, system info..."></textarea>
- 
-  <button onclick="submitIssue()">Run Support Agent</button>-->
-  <textarea id="issue"></textarea>
-<textarea id="logs"></textarea>
-<button id="run-agent">Run Support Agent</button>
-<pre id="output"></pre>
- 
-  <pre id="response"></pre>
-</div>
- 
-<script src="app.js"></script>
+  <div class="page">
+    <div class="card">
+      <!-- Left Illustration -->
+      <div class="left">
+        <div class="brand">XEBIA</div>
+        <div class="illustration">
+          <div class="circle"></div>
+          <div class="mascot">🤖</div>
+        </div>
+        <h2>Xebia Tech-AI-Support</h2>
+        <p>Shaping your future with AI</p>
+      </div>
+
+      <!-- Right Login -->
+      <div class="right">
+        <div class="logo">🛠 Tech Support AI</div>
+        <h3 class="Login_Page">Login to your Account</h3>
+        <p class="subtitle">See what is going on with your business</p>
+
+        <button class="google-btn" onclick="googleLogin()">
+          <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" />
+          Continue with Google
+        </button>
+
+        <div class="divider">or Sign in with Email</div>
+
+        <form id="loginForm">
+          <label for="loginEmail">Email</label>
+          <input 
+            type="email" 
+            id="loginEmail" 
+            placeholder="Enter Email" 
+            required 
+            autocomplete="email"
+          />
+
+          <label for="loginPassword">Password</label>
+          <input 
+            type="password" 
+            id="loginPassword" 
+            placeholder="Enter password" 
+            required 
+            autocomplete="current-password"
+          />
+
+          <div class="options">
+            <label>
+              <input type="checkbox" id="rememberMe" />
+              Remember me
+            </label>
+            <a href="forgot-password.html">Forgot Password?</a>
+          </div>
+
+          <button type="button" onclick="login()" class="login-btn">Login</button>
+        </form>
+
+        <p class="bottom-text">
+          Not Registered Yet? <a href="signup.html">Create an account</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    function googleLogin() {
+      alert("Google login integration coming soon!");
+    }
+  </script>
 </body>
 </html>

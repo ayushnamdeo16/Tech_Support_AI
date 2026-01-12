@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Create a new support request - Tech Support AI" />
+  <title>New Issue - Tech Support AI</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="ai-bg">
+    <header class="topbar">
+      <div class="logo">🛠 Tech Support AI</div>
+      <div class="Header_menu">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="support-hub.html">Support Hub</a>
+        <a href="aboutus.html">About</a>
+      </div>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </header>
+    
+    <main class="dashboard">
+      <section class="card">
+        <h3>Describe the Issue</h3>
+        <textarea 
+          id="issue" 
+          placeholder="Briefly describe the problem you're experiencing..."
+          required
+        ></textarea>
+      </section>
+ 
+      <section class="card">
+        <h3>Logs / Context</h3>
+        <textarea 
+          id="logs" 
+          placeholder="Paste logs, error messages, system details, or any relevant context (optional)..."
+        ></textarea>
+      </section>
+
+      <section class="card">
+        <h3>Upload Images (Optional)</h3>
+        <p style="color: #6b7280; font-size: 0.875rem; margin-bottom: 1rem;">
+          Upload screenshots or images related to your issue. Supports: JPG, PNG, GIF, WebP, BMP, TIFF, SVG (Max 10MB per image)
+        </p>
+        
+        <div style="margin-bottom: 1rem;">
+          <input 
+            type="file" 
+            id="imageUpload" 
+            accept="image/jpeg,image/jpg,image/png,image/gif,image/webp,image/bmp,image/tiff,image/svg+xml,image/jfif,.jfif"
+            multiple
+            style="display: none;"
+          />
+          <button 
+            type="button" 
+            onclick="document.getElementById('imageUpload').click()"
+            class="upload-button"
+          >
+            📷 Choose Images
+          </button>
+          <span id="uploadStatus" style="margin-left: 1rem; color: #6b7280; font-size: 0.875rem;"></span>
+        </div>
+
+        <div id="imagePreview" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; margin-top: 1rem;"></div>
+
+        <div id="uploadedImages" style="display: none;"></div>
+      </section>
+ 
+      <button id="run-agent" class="primary-btn">Run Support Agent</button>
+ 
+      <section class="card output-card">
+        <h3>AI Diagnosis</h3>
+        <pre id="output">AI response will appear here...</pre>
+        
+        <div class="diagnosis-actions">
+          <button class="back-btn" onclick="goBack()">← Back</button>
+          
+          <div class="manual-support">
+            <span class="support-text">
+              Not resolved?
+              <a href="https://support.xebia.com/app/itdesk/ui/requests"
+                 target="_blank"
+                 rel="noopener noreferrer">
+                Raise a manual support ticket
+              </a>
+            </span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      © 2026 Tech Support AI • Intelligent Troubleshooting Platform
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    function goBack() {
+      if (document.referrer) {
+        window.history.back();
+      } else {
+        window.location.href = 'support-hub.html';
+      }
+    }
+
+    let uploadedImageIds = [];
+
+    // Wait for app.js to load, then setup image upload
+    document.addEventListener('DOMContentLoaded', function() {
+      const imageUploadInput = document.getElementById('imageUpload');
+      if (imageUploadInput) {
+        imageUploadInput.addEventListener('change', async function(e) {
+          const files = Array.from(e.target.files);
+          const previewDiv = document.getElementById('imagePreview');
+          const statusSpan = document.getElementById('uploadStatus');
+          
+          if (files.length === 0) return;
+
+          statusSpan.textContent = `Uploading ${files.length} image(s)...`;
+          
+          for (const file of files) {
+            // Validate file size (10MB)
+            if (file.size > 10 * 1024 * 1024) {
+              alert(`File ${file.name} is too large. Maximum size is 10MB.`);
+              continue;
+            }
+
+            // Validate file type - including jfif
+            const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'image/bmp', 'image/tiff', 'image/svg+xml', 'image/jfif'];
+            const validExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp', '.tiff', '.svg', '.jfif'];
+            const fileExt = '.' + file.name.split('.').pop().toLowerCase();
+            
+            // Check both MIME type and extension
+            if (!validTypes.includes(file.type) && !validExtensions.includes(fileExt)) {
+              // Also allow if file extension is valid even if MIME type is unknown
+              if (!validExtensions.includes(fileExt)) {
+                alert(`File ${file.name} is not a supported image format. Supported: JPG, PNG, GIF, WebP, BMP, TIFF, SVG, JFIF`);
+                continue;
+              }
+            }
+
+            try {
+              // Wait for app.js functions to be available
+              let retries = 0;
+              while (typeof window.uploadAndCompressImage !== 'function' && retries < 10) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                retries++;
+              }
+              
+              if (typeof window.uploadAndCompressImage !== 'function') {
+                throw new Error('Image upload function not available. Please refresh the page.');
+              }
+              
+              // Compress and upload image using function from app.js
+              const result = await window.uploadAndCompressImage(file);
+              
+              if (result && result.imageId) {
+                uploadedImageIds.push(result.imageId);
+                
+                // Create preview
+                const previewItem = document.createElement('div');
+                previewItem.className = 'image-preview-item';
+                previewItem.innerHTML = `
+                  <img src="${result.previewUrl}" alt="${file.name}" />
+                  <div class="image-preview-info">
+                    <div><strong>${file.name.length > 20 ? file.name.substring(0, 20) + '...' : file.name}</strong></div>
+                    <div>Size: ${formatBytes(result.compressedSize)} ${result.originalSize !== result.compressedSize ? `(compressed from ${formatBytes(result.originalSize)})` : ''}</div>
+                    <button class="remove-image-btn" onclick="removeImage('${result.imageId}', this)">Remove</button>
+                  </div>
+                `;
+                previewDiv.appendChild(previewItem);
+              }
+            } catch (error) {
+              console.error('Error uploading image:', error);
+              alert(`Failed to upload ${file.name}: ${error.message}`);
+            }
+          }
+
+          statusSpan.textContent = `${uploadedImageIds.length} image(s) uploaded`;
+          e.target.value = ''; // Reset input
+        });
+      }
+    });
+
+    function removeImage(imageId, button) {
+      uploadedImageIds = uploadedImageIds.filter(id => id !== imageId);
+      const previewItem = button.closest('.image-preview-item');
+      if (previewItem) {
+        previewItem.remove();
+      }
+      const statusSpan = document.getElementById('uploadStatus');
+      if (statusSpan) {
+        statusSpan.textContent = uploadedImageIds.length > 0 
+          ? `${uploadedImageIds.length} image(s) uploaded` 
+          : '';
+      }
+    }
+
+    function formatBytes(bytes) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+    }
+
+    // Make uploadedImageIds accessible to app.js
+    window.getUploadedImageIds = () => uploadedImageIds;
+    window.clearUploadedImages = () => {
+      uploadedImageIds = [];
+      document.getElementById('imagePreview').innerHTML = '';
+      document.getElementById('uploadStatus').textContent = '';
+    };
+  </script>
+</body>
+</html>

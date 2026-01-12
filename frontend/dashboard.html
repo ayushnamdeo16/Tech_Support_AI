@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Dashboard - Tech Support AI" />
+  <title>Dashboard - Tech Support AI</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="ai-bg">
+    <header class="topbar">
+      <div class="logo">🛠 Tech Support AI</div>
+      <div class="Header_menu">
+        <a href="support-hub.html">Support Hub</a>
+        <a href="troubleshooting.html">New Issue</a>
+        <a href="aboutus.html">About</a>
+      </div>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </header>
+
+    <main class="dashboard">
+      <div class="card">
+        <h3>Welcome to Dashboard</h3>
+        <div id="userInfo" style="margin-bottom: 1.5rem;">
+          <p><strong>Status:</strong> <span style="color: #10b981;">✓ Logged In</span></p>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 2rem;">
+          <a href="support-hub.html" style="text-decoration: none;">
+            <button class="primary-btn" style="width: 100%; margin-bottom: 0; padding: 1rem;">
+              📋 Support Hub
+            </button>
+          </a>
+          <a href="troubleshooting.html" style="text-decoration: none;">
+            <button class="primary-btn" style="width: 100%; margin-bottom: 0; padding: 1rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+              ➕ New Issue
+            </button>
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Quick Stats</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+          <div style="text-align: center; padding: 1rem; background: #f3f4f6; border-radius: 0.75rem;">
+            <div style="font-size: 2rem; font-weight: bold; color: #667eea;" id="totalIssues">0</div>
+            <div style="color: #6b7280; font-size: 0.875rem;">Total Issues</div>
+          </div>
+          <div style="text-align: center; padding: 1rem; background: #f3f4f6; border-radius: 0.75rem;">
+            <div style="font-size: 2rem; font-weight: bold; color: #10b981;" id="resolvedIssues">0</div>
+            <div style="color: #6b7280; font-size: 0.875rem;">Resolved</div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      © 2026 Tech Support AI • Intelligent Troubleshooting Platform
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    // Load user info and stats
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = getUser();
+      if (user) {
+        const userInfoDiv = document.getElementById('userInfo');
+        userInfoDiv.innerHTML = `
+          <p><strong>Status:</strong> <span style="color: #10b981;">✓ Logged In</span></p>
+          <p style="margin-top: 0.5rem;"><strong>User:</strong> ${user.name || user.email}</p>
+        `;
+        
+        // Load user stats
+        loadUserStats(user.id);
+      } else {
+        window.location.href = 'index.html';
+      }
+    });
+
+    async function loadUserStats(userId) {
+      try {
+        const res = await fetch(`http://localhost:3000/support-issues/${userId}`);
+        const data = await res.json();
+        const totalIssues = data.issues ? data.issues.length : 0;
+        document.getElementById('totalIssues').textContent = totalIssues;
+        document.getElementById('resolvedIssues').textContent = totalIssues;
+      } catch (err) {
+        console.error('Error loading stats:', err);
+      }
+    }
+  </script>
+</body>
+</html>

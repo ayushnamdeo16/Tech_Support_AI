@@ -1,0 +1,97 @@
+* {
+    box-sizing: border-box;
+  }
+   
+  body {
+    margin: 0;
+    height: 100vh;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+   
+  /* Glassmorphism card */
+  .container {
+    width: 360px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 14px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    animation: fadeIn 0.6s ease-in-out;
+  }
+   
+  h2 {
+    margin-bottom: 5px;
+    color: #2c2c2c;
+  }
+   
+  .subtitle {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 25px;
+  }
+   
+  input {
+    width: 100%;
+    padding: 12px 14px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    transition: 0.3s;
+  }
+   
+  input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+  }
+   
+  button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+   
+  button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
+  }
+   
+  .footer-text {
+    margin-top: 20px;
+    font-size: 14px;
+  }
+   
+  .footer-text a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+  }
+   
+  .footer-text a:hover {
+    text-decoration: underline;
+  }
+   
+  /* Smooth entry animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(15px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
