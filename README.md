@@ -173,6 +173,32 @@ NODE_ENV=development
 - `user_id` - Foreign key to users
 - `created_at` - Upload timestamp
 
+## Deployment
+
+🚀 **Want to make your application publicly accessible?**
+
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed step-by-step instructions on deploying to:
+- **Backend**: Render (free tier available)
+- **Frontend**: Vercel or Netlify (free tier available)
+
+### Quick Deployment Summary
+
+1. **Backend (Render)**:
+   - Push code to GitHub
+   - Connect repository to Render
+   - Set environment variables (`OPENAI_API_KEY`, `NODE_ENV`, `PORT`)
+   - Deploy → Get backend URL: `https://your-backend.onrender.com`
+
+2. **Frontend (Vercel/Netlify)**:
+   - Connect GitHub repository
+   - Set root directory to `frontend`
+   - Optionally set `API_URL` environment variable to your backend URL
+   - Deploy → Get frontend URL: `https://your-app.vercel.app`
+
+3. **Share the Frontend URL** with your collaborators - that's the public URL everyone can use!
+
+For complete instructions, see [DEPLOYMENT.md](./DEPLOYMENT.md).
+
 ## Usage
 
 1. **Sign Up**: Create a new account

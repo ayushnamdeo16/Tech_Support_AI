@@ -60,6 +60,7 @@
     </footer>
   </div>
 
+  <script src="config.js"></script>
   <script src="app.js"></script>
   <script>
     // Load user info and stats
@@ -81,7 +82,8 @@
 
     async function loadUserStats(userId) {
       try {
-        const res = await fetch(`http://localhost:3000/support-issues/${userId}`);
+        const apiUrl = window.API_CONFIG ? window.API_CONFIG.getApiUrl() : (window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://tech-support-ai-backend.onrender.com');
+        const res = await fetch(`${apiUrl}/support-issues/${userId}`);
         const data = await res.json();
         const totalIssues = data.issues ? data.issues.length : 0;
         document.getElementById('totalIssues').textContent = totalIssues;

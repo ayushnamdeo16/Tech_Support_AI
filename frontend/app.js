@@ -1,3 +1,22 @@
+/* ==================== API CONFIGURATION ==================== */
+
+// Get API URL from config or use default
+function getApiUrl() {
+  if (typeof window !== 'undefined' && window.API_CONFIG) {
+    return window.API_CONFIG.getApiUrl();
+  }
+  // Fallback: detect based on hostname
+  if (typeof window !== 'undefined') {
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      return 'http://localhost:3000';
+    }
+  }
+  // Default production URL - UPDATE THIS with your deployed backend URL
+  return 'https://tech-support-ai-backend.onrender.com';
+}
+
+const API_BASE_URL = getApiUrl();
+
 /* ==================== COMMON UTILITIES ==================== */
 
 function getUser() {
@@ -71,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Get uploaded image IDs if available
         const imageIds = window.getUploadedImageIds ? window.getUploadedImageIds() : [];
         
-        const res = await fetch("http://localhost:3000/support", {
+        const res = await fetch(`${API_BASE_URL}/support`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -101,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
  
       } catch (err) {
         console.error(err);
-        output.textContent = "❌ Error communicating with server. Please ensure the backend is running on http://localhost:3000";
+        output.textContent = `❌ Error communicating with server. Please ensure the backend is running at ${API_BASE_URL}`;
         showAlert("Connection error. Please check if the server is running.", 'error');
       } finally {
         btn.disabled = false;
@@ -136,7 +155,7 @@ async function login() {
   }
  
   try {
-    const res = await fetch("http://localhost:3000/login", {
+    const res = await fetch(`${API_BASE_URL}/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password })
@@ -192,7 +211,7 @@ async function signup() {
   }
  
   try {
-    const res = await fetch("http://localhost:3000/signup", {
+    const res = await fetch(`${API_BASE_URL}/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, email, password })
@@ -208,7 +227,7 @@ async function signup() {
     }
   } catch (err) {
     console.error("Signup error:", err);
-    alert("Connection error. Please ensure the backend server is running on http://localhost:3000");
+    alert(`Connection error. Please ensure the backend server is running at ${API_BASE_URL}`);
   } finally {
     if (signupBtn) {
       signupBtn.disabled = false;
@@ -248,7 +267,7 @@ async function loadIssuesDropdown() {
  
   try {
     console.log(`Fetching issues for user ID: ${user.id}`);
-    const res = await fetch(`http://localhost:3000/support-issues/${user.id}`);
+    const res = await fetch(`${API_BASE_URL}/support-issues/${user.id}`);
     
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
@@ -393,7 +412,7 @@ async function uploadAndCompressImage(file) {
       headers['X-User-ID'] = user.id;
     }
     
-    const response = await fetch('http://localhost:3000/upload-image', {
+    const response = await fetch(`${API_BASE_URL}/upload-image`, {
       method: 'POST',
       headers: headers,
       body: formData
@@ -408,7 +427,7 @@ async function uploadAndCompressImage(file) {
     
     return {
       imageId: data.imageId,
-      previewUrl: data.previewUrl || `http://localhost:3000/image/${data.imageId}`,
+      previewUrl: data.previewUrl || `${API_BASE_URL}/image/${data.imageId}`,
       compressedSize: compressedBlob.size,
       originalSize: file.size
     };
